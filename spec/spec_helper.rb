@@ -21,14 +21,19 @@ zone = "UTC"
 Time.zone = zone
 
 # Freeze time to Jan 1st of this year
-Timecop.travel(Time.zone.local(Time.zone.now.year, 1, 1, 0, 0, 1, 0))
+Timecop.freeze(Time.new(Date.today.year, 1, 1))
+
+# Laziness...
+def now
+  @time ||= Time.zone.now
+end
 
 # Print the location of puts/p calls so you can find them later
 # def puts str
 #   super caller.first if caller.first.index("shoulda.rb") == -1
 #   super str
 # end
-# 
+#
 # def p obj
 #   puts caller.first
 #   super obj
