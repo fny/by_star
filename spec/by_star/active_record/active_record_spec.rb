@@ -12,7 +12,7 @@ ActiveRecord::Base.establish_connection(ENV["DB"] || "sqlite")
 
 load File.dirname(__FILE__) + "/../../fixtures/active_record/schema.rb"
 load File.dirname(__FILE__) + "/../../fixtures/active_record/models.rb"
-load File.dirname(__FILE__) + "/../../fixtures/active_record/seeds.rb"
+load File.dirname(__FILE__) + "/../../fixtures/active_record/factories.rb"
 
 Dir[File.dirname(__FILE__) + '/../shared/*.rb'].each {|file| require file }
 
