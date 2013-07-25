@@ -16,15 +16,28 @@ load File.dirname(__FILE__) + "/../../fixtures/active_record/seeds.rb"
 
 Dir[File.dirname(__FILE__) + '/../shared/*.rb'].each {|file| require file }
 
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+end
+
 describe ActiveRecord do
   it_behaves_like "by day"
-  it_behaves_like "by direction"
-  it_behaves_like "by fortnight"
-  it_behaves_like "by month"
-  it_behaves_like "by quarter"
-  it_behaves_like "by week"
-  it_behaves_like "by weekend"
-  it_behaves_like "by year"
+  # it_behaves_like "by direction"
+  # it_behaves_like "by fortnight"
+  # it_behaves_like "by month"
+  # it_behaves_like "by quarter"
+  # it_behaves_like "by week"
+  # it_behaves_like "by weekend"
+  # it_behaves_like "by year"
 
   it "should be able to order the result set" do
     scope = Post.by_year(Time.zone.now.year, :order => "created_at DESC")
@@ -36,14 +49,14 @@ describe ActiveRecord do
       Post.between(2.days.ago, Date.today).class.should == ActiveRecord::Relation
     end
     it "should return a result set between two times" do
-      create_posts_relative_to_today
+      fail
       Post.between(2.days.ago, Date.today).count.should == 2
     end
   end
 
   describe "#between_times" do
     it "should be an alias of #between" do
-      create_posts_relative_to_today
+      fail
       Post.between_times(2.days.ago, Date.today).should == Post.between(2.days.ago, Date.today)
     end
   end
